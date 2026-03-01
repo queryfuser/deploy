@@ -37,30 +37,26 @@ If you prefer to set things up yourself:
 psql -h <YOUR_DB_HOST> -U postgres -c "CREATE DATABASE queryfuser;"
 ```
 
-### 2. Run the migrations
-
-```bash
-psql -h <YOUR_DB_HOST> -U postgres -d queryfuser -f migrations/001_schema.sql
-```
-
-### 3. Configure environment
+### 2. Configure environment
 
 ```bash
 cp .env.example .env
 # Edit .env with your values
 ```
 
-### 4. Authenticate to the container registry
+### 3. Authenticate to the container registry
 
 ```bash
 gcloud auth configure-docker us-docker.pkg.dev
 ```
 
-### 5. Start QueryFuser
+### 4. Start QueryFuser
 
 ```bash
 docker compose up -d
 ```
+
+Database tables are created automatically on first startup. Schema migrations are also applied automatically on updates.
 
 ## Ports
 
