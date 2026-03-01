@@ -175,12 +175,7 @@ else
         info "Database '$DB_NAME' already exists"
     fi
 
-    # Run migrations
-    ask "Run migrations? (Y/n) " RUN_MIG
-    if [[ "${RUN_MIG:-y}" != "n" && "${RUN_MIG:-y}" != "N" ]]; then
-        psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -f "$DEPLOY_DIR/migrations/001_schema.sql"
-        info "Migrations applied"
-    fi
+    info "Database migrations will run automatically on startup"
 fi
 
 unset PGPASSWORD
