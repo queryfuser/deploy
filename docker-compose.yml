@@ -1,0 +1,8 @@
+services:
+  queryfuser:
+    image: us-docker.pkg.dev/rundown-bi/queryfuser/queryfuser:latest
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "3001:3001"   # Dashboard (web UI + API)
+      - "5433:5433"   # PostgreSQL proxy (point your BI tool here)
