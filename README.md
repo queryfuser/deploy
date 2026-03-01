@@ -2,14 +2,34 @@
 
 QueryFuser is a PostgreSQL-compatible proxy that intercepts queries from your BI tools, translates them to BigQuery SQL, and **merges concurrent identical queries** to reduce BigQuery costs.
 
-## Prerequisites
+## One-Line Install
+
+SSH into your GCE VM and run:
+
+```bash
+git clone https://github.com/queryfuser/deploy.git && cd deploy && bash setup.sh
+```
+
+The setup script will:
+1. Install Docker (if needed)
+2. Authenticate to the container registry
+3. Prompt for your database and license key
+4. Auto-generate JWT secret and encryption key
+5. Create the database and run migrations
+6. Pull and start QueryFuser
+
+## Manual Setup
+
+If you prefer to set things up yourself:
+
+### Prerequisites
 
 - A **GCP project** with BigQuery enabled
 - A **Cloud SQL PostgreSQL** instance (or any PostgreSQL 14+)
 - A **GCE VM** (e2-small or larger) with Docker installed
 - A **QueryFuser license key** from [queryfuser.com](https://queryfuser.com)
 
-## Quick Start
+### Quick Start
 
 ### 1. Create the database
 
