@@ -45,6 +45,10 @@ CREATE TABLE IF NOT EXISTS projects (
     bigquery_dataset     VARCHAR(255) NOT NULL DEFAULT '',
     credentials_json     TEXT         NOT NULL DEFAULT '',
     is_default           BOOLEAN      NOT NULL DEFAULT FALSE,
+    merge_window_ms      INTEGER      NOT NULL DEFAULT 200,
+    min_table_overlap    INTEGER      NOT NULL DEFAULT 1,
+    max_merge_group_size INTEGER      NOT NULL DEFAULT 50,
+    merge_enabled        BOOLEAN      NOT NULL DEFAULT TRUE,
     created_at           TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
     updated_at           TIMESTAMPTZ  NOT NULL DEFAULT NOW()
 );
