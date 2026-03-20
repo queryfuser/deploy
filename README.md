@@ -100,6 +100,12 @@ Configure your BI tool (Looker, Metabase, Tableau, etc.) as a PostgreSQL connect
 | `LISTEN_PORT` | | Proxy listen port (default: `5433`) |
 | `TLS_CERT_PATH` | | Path to TLS certificate for proxy SSL |
 | `TLS_KEY_PATH` | | Path to TLS private key for proxy SSL |
+| `SMTP_HOST` | | SMTP server for password-reset emails (e.g. `smtp.gmail.com`) |
+| `SMTP_PORT` | | SMTP port (default: `587`) |
+| `SMTP_USER` | | SMTP username |
+| `SMTP_PASSWORD` | | SMTP password or app password |
+| `SMTP_FROM` | | From header (e.g. `QueryFuser <noreply@yourdomain.com>`) |
+| `APP_URL` | | Base URL for reset links (e.g. `https://queryfuser.example.com`) |
 
 ## Database
 
