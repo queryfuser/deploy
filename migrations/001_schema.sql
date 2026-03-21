@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS query_logs (
     client_ip         VARCHAR(45),
     application_name  VARCHAR(255),
     cache_hit         BOOLEAN NOT NULL DEFAULT FALSE,
+    optimizations     TEXT NOT NULL DEFAULT '',
     created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
