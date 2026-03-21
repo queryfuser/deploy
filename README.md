@@ -23,7 +23,7 @@ After setup, open the dashboard to register a user and create your first BigQuer
 - A **GCP project** with BigQuery enabled
 - A **GCE VM** (e2-small or larger) with:
   - Docker installed (the setup script can install it)
-  - Default service account with **BigQuery Data Viewer** and **BigQuery Job User** roles
+  - Default service account with **BigQuery Data Viewer**, **BigQuery Job User**, and **BigQuery User** roles
   - Firewall rules allowing ports **3001** (dashboard) and **5433** (proxy)
 - A **QueryFuser license key** from [queryfuser.com](https://queryfuser.com)
 
