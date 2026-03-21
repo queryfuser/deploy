@@ -37,6 +37,18 @@ echo ""
 # ── 0. Check we're in the right directory ────────────────────────────────────
 
 if [[ ! -f "$DEPLOY_DIR/docker-compose.yml" ]]; then
+    # Need git to clone — install if missing
+    if ! command -v git &>/dev/null; then
+        warn "git not found. Installing..."
+        if command -v apt-get &>/dev/null; then
+            sudo apt-get update -qq && sudo apt-get install -y -qq git
+        elif command -v yum &>/dev/null; then
+            sudo yum install -y -q git
+        else
+            error "git is not installed and could not be installed automatically. Please install git and try again."
+        fi
+        info "git installed"
+    fi
     if [[ ! -d "queryfuser-deploy" ]]; then
         echo "Cloning deployment repo..."
         git clone https://github.com/queryfuser/deploy.git queryfuser-deploy
@@ -163,4 +175,7 @@ echo ""
 echo -e "  ${BOLD}Logs:${NC}      docker compose logs -f"
 echo -e "  ${BOLD}Stop:${NC}      docker compose down"
 echo -e "  ${BOLD}Update:${NC}    docker compose pull && docker compose up -d"
+echo ""
+echo -e "  ${YELLOW}All connection details and proxy credentials are also${NC}"
+echo -e "  ${YELLOW}available in the dashboard after you register.${NC}"
 echo ""
