@@ -149,3 +149,17 @@ CREATE TABLE IF NOT EXISTS project_bq_sources (
 
 CREATE INDEX IF NOT EXISTS idx_bq_sources_project_id
     ON project_bq_sources (project_id);
+
+-- ── Password reset tokens ────────────────────────────────────────────────────
+
+CREATE TABLE IF NOT EXISTS password_reset_tokens (
+    id         SERIAL PRIMARY KEY,
+    user_id    INT         NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    token      VARCHAR(64) NOT NULL UNIQUE,
+    expires_at TIMESTAMPTZ NOT NULL,
+    used       BOOLEAN     NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_reset_tokens_token
+    ON password_reset_tokens (token);
