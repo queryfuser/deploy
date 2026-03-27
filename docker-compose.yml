@@ -1,0 +1,74 @@
+services:
+  db:
+    image: postgres:16-alpine
+    profiles: [db]
+    restart: unless-stopped
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: queryfuser
+      POSTGRES_USER: queryfuser
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U queryfuser"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "3"
+
+  queryfuser:
+    image: us-docker.pkg.dev/rundownbi/queryfuser/queryfuser:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgres://queryfuser:${POSTGRES_PASSWORD}@db:5432/queryfuser}
+    ports:
+      - "3001:3001"   # Dashboard (web UI + API) — use nginx for HTTPS
+      - "5433:5433"   # PostgreSQL proxy (point your BI tool here)
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:3001"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "3"
+
+  # ── HTTPS (optional) ──────────────────────────────────────────────
+  # Enable with: bash enable-https.sh (or docker compose --profile https up -d)
+  nginx:
+    image: nginx:alpine
+    profiles: [https]
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx-generated.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./certbot/conf:/etc/letsencrypt:ro
+      - ./certbot/www:/var/www/certbot:ro
+    depends_on:
+      - queryfuser
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  certbot:
+    image: certbot/certbot
+    profiles: [https]
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+
+volumes:
+  pgdata:
